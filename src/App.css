@@ -1,0 +1,77 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+input {
+  padding: 12px;
+  font-size: 18px;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  margin-right: 12px;
+}
+
+button {
+  padding: 12px;
+  font-size: 18px;
+  border-radius: 5px;
+  background-color: #525a69;
+  color: white;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #43474f;
+}
+
+.questions {
+  max-width: 700px;
+  margin-top: 18px;
+  margin-left: 18px;
+  margin-right: 18px;
+}
+
+.questions > .question {
+  text-align: left;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #525a69;
+  border-radius: 5px;
+}
+
+.que {
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.ans {
+  font-size: 18px;
+  color: rgb(235, 235, 235);
+  font-weight: light;
+}
+
+.correct {
+  color: red;
+}
+
+.debug {
+  font-size: 12px;
+}
+
+p {
+  margin: 4px;
+}
