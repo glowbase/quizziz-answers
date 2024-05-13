@@ -93,7 +93,7 @@ async function getQuestions(room) {
     };
 }
 
-app.get('/answers', async (req, res) => {
+app.get('/questions', async (req, res) => {
     try {
         const code = req.query.code;
 
@@ -106,7 +106,7 @@ app.get('/answers', async (req, res) => {
             const {
                 _id: id,
                 structure: {
-                    kind,
+                    kind: type,
                     options,
                     query: {
                         text
@@ -114,18 +114,32 @@ app.get('/answers', async (req, res) => {
                 }
             } = questions[ids[i]];
 
-            const answer = await getAnswer(room, id, kind);
-
             response.push({
                 id: id,
                 options,
                 text,
-                answer
+                type
             });
         }
 
-        res.send(response);
+        res.send({
+            questions: response,
+            room: room
+        });
     } catch (err) {
+        res.sendStatus(500);
+    }
+});
+
+app.get('/answer', async (req, res) => {
+    try {
+        const { room, id, type } = req.query;
+
+        const answer = await getAnswer(room, id, type);
+
+        res.send(answer);
+    } catch (err) {
+        console.log(err);
         res.sendStatus(500);
     }
 });

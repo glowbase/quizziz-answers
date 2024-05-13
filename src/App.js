@@ -1,16 +1,31 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import './App.css';
 
 function App() {
-  const [quizCode, setQuizCode] = useState("73642488");
-  const [answers, setAnswers] = useState([]);
+  const [quizCode, setQuizCode] = useState("");
+  const [questions, setQuestions] = useState([]);
 
-  async function getAnswers() {
-    const { data } = await axios.get(`http://localhost:3001/answers?code=${quizCode}`);
-    
-    setAnswers(data);
+  async function getQuestions() {
+    setQuestions([]);
+
+    const { data } = await axios.get(`http://localhost:3001/questions?code=${quizCode}`);
+
+    data.questions.forEach(async question => {
+      const answer = await getAnswer(data.room, question.id, question.type);
+
+      setQuestions(questions => [...questions, {
+        answer: answer,
+        ...question
+      }]);
+    });
+  }
+
+  async function getAnswer(room, id, type) {
+    const { data } = await axios.get(`http://localhost:3001/answer?room=${room}&id=${id}&type=${type}`);
+
+    return data;
   }
  
   return (
@@ -20,12 +35,12 @@ function App() {
 
         <div>
           <input placeholder="Quizizz Code" value={quizCode} onInput={e => setQuizCode(e.target.value)} />
-          <button onClick={getAnswers}>Submit</button>
+          <button onClick={getQuestions}>Submit</button>
         </div>
 
         <div className='questions'>
           {
-            answers.map(question => {
+            questions.map(question => {
               return <div key={question.id} className='question'>
                 <div className='que' dangerouslySetInnerHTML={{__html: question.text.replaceAll('&nbsp;', '')}} />
                 {
